@@ -1,0 +1,15 @@
+substitutions:
+  name: "everything-presence-lite"
+  friendly_name: "Everything Presence Lite"
+  illuminance_update_interval: "2s"
+  hidden_ssid: "false"
+  log_level: INFO
+
+dashboard_import:
+  package_import_url: github://maxdubrinsky/everything-presence-lite/everything-presence-lite-ha-no-zones.yaml@main
+  import_full_config: false # or true
+
+packages:
+  device_base: !include common/everything-presence-lite-base.yaml
+  ld2450_no_zones: !include common/ld2450-no-zones.yaml
+  bluetooth_base: !include common/bluetooth-base.yaml

@@ -298,8 +298,8 @@ uart:
           
           if (angle_adjust != 0) {
             p1_x = p1_distance * cos(p1_angle * DEGREES_TO_RADIANS);
-            p1_x = p1_distance * cos(p1_angle * DEGREES_TO_RADIANS);
-            p2_y = p2_distance * sin(p2_angle * DEGREES_TO_RADIANS);
+            p1_y = p1_distance * sin(p1_angle * DEGREES_TO_RADIANS);
+            p2_x = p2_distance * cos(p2_angle * DEGREES_TO_RADIANS);
             p2_y = p2_distance * sin(p2_angle * DEGREES_TO_RADIANS);
             p3_x = p3_distance * cos(p3_angle * DEGREES_TO_RADIANS);
             p3_y = p3_distance * sin(p3_angle * DEGREES_TO_RADIANS);

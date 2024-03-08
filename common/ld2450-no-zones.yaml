@@ -285,6 +285,8 @@ uart:
           int16_t p3_distance_resolution = (uint16_t((bytes[27] << 8) | bytes[26] ));
 
           const float RADIANS_TO_DEGREES = 180.0 / 3.14159265358979323846;
+          const float DEGREES_TO_RADIANS = 3.14159265358979323846 / 180.0;
+
           float angle_adjust = float(id(angle).state);
           float p1_angle = atan2(p1_y, p1_x) * RADIANS_TO_DEGREES + angle_adjust;
           float p2_angle = atan2(p2_y, p2_x) * RADIANS_TO_DEGREES + angle_adjust;
@@ -294,7 +296,6 @@ uart:
           float p2_distance = sqrt(p2_x * p2_x + p2_y * p2_y);
           float p3_distance = sqrt(p3_x * p3_x + p3_y * p3_y);
           
-          const float DEGREES_TO_RADIANS = 3.14159265358979323846 / 180.0;
           if (angle_adjust != 0) {
             p1_x = p1_distance * cos(p1_angle * DEGREES_TO_RADIANS);
             p1_x = p1_distance * cos(p1_angle * DEGREES_TO_RADIANS);

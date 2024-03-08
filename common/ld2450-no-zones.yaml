@@ -51,6 +51,16 @@ number:
     optimistic: True
     restore_value: True
     initial_value: 600
+  - platform: template
+    name: "Angle Adjust"
+    id: angle
+    max_value: 90
+    min_value: -90
+    unit_of_measurement: "°"
+    step: 1
+    optimistic: True
+    restore_value: True
+    initial_value: 0
 
 
 sensor:
@@ -275,14 +285,24 @@ uart:
           int16_t p3_distance_resolution = (uint16_t((bytes[27] << 8) | bytes[26] ));
 
           const float RADIANS_TO_DEGREES = 180.0 / 3.14159265358979323846;
-          float p1_angle = atan2(p1_y, p1_x) * RADIANS_TO_DEGREES;
-          float p2_angle = atan2(p2_y, p2_x) * RADIANS_TO_DEGREES;
-          float p3_angle = atan2(p3_y, p3_x) * RADIANS_TO_DEGREES;
+          float angle_adjust = float(id(angle).state);
+          float p1_angle = atan2(p1_y, p1_x) * RADIANS_TO_DEGREES + angle_adjust;
+          float p2_angle = atan2(p2_y, p2_x) * RADIANS_TO_DEGREES + angle_adjust;
+          float p3_angle = atan2(p3_y, p3_x) * RADIANS_TO_DEGREES + angle_adjust;
           
           float p1_distance = sqrt(p1_x * p1_x + p1_y * p1_y);
           float p2_distance = sqrt(p2_x * p2_x + p2_y * p2_y);
           float p3_distance = sqrt(p3_x * p3_x + p3_y * p3_y);
           
+          const float DEGREES_TO_RADIANS = 3.14159265358979323846 / 180.0;
+          if (angle_adjust != 0) {
+            p1_x = p1_distance * cos(p1_angle * DEGREES_TO_RADIANS);
+            p1_x = p1_distance * cos(p1_angle * DEGREES_TO_RADIANS);
+            p2_y = p2_distance * sin(p2_angle * DEGREES_TO_RADIANS);
+            p2_y = p2_distance * sin(p2_angle * DEGREES_TO_RADIANS);
+            p3_x = p3_distance * cos(p3_angle * DEGREES_TO_RADIANS);
+            p3_y = p3_distance * sin(p3_angle * DEGREES_TO_RADIANS);
+          }
 
           float max_distance = float(id(distance).state) * 10;
           if (p1_distance < max_distance) {
